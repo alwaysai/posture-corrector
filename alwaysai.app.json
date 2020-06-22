@@ -1,0 +1,8 @@
+{
+  "scripts": {
+    "start": "python app.py"
+  },
+  "models": {
+    "alwaysai/human-pose": 7
+  }
+}
