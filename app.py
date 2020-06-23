@@ -5,7 +5,6 @@ import time
 import edgeiq
 import os
 import json
-import simpleaudio as sa
 from posture import CheckPosture
 import numpy as np
 
@@ -15,15 +14,13 @@ improper posture (as defined in CheckPosture).
 
 Proper posture functions are defined in the 'CheckPosture' class and imported.
 
-A custom .wav file is used to remind the user when they are not sitting up straight.
-The audio file is specified in a configuration file (config.json), along with a
+This app uses a configuration file (config.json) to configure a
 'scale' factor, which is used to make the posture calculations more or less stringent.
 A larger scale factor (>1) makes the calculation less stringent (allows for less straight
 posture).
 """
 CONFIG_FILE = "config.json"
 SCALE = "scale"
-AUDIO_CLIP = "audio_clip"
 
 def load_json(filepath):
     # check that the file exists and return the loaded json data
@@ -37,7 +34,6 @@ def main():
     # load the configuration data from config.json
     config = load_json(CONFIG_FILE)
     scale = config.get(SCALE)
-    audio_clip = sa.WaveObject.from_wave_file(config.get(AUDIO_CLIP))
 
     pose_estimator = edgeiq.PoseEstimation("alwaysai/human-pose")
 
@@ -63,7 +59,6 @@ def main():
             # loop detection
             while True:
                 frame = video_stream.read()
-                print(str(frame.shape[:2]))
                 results = pose_estimator.estimate(frame)
                 # Generate text to display on streamer
                 text = ["Model: {}".format(pose_estimator.model_id)]
@@ -77,12 +72,12 @@ def main():
                     # update the instance key_points to check the posture
                     posture.set_key_points(pose.key_points)
 
-                    # play a reminder if you are not sitting up straight
-                    if not posture.correct_posture():
-                        text.append(posture.get_message())
-                        text.append("str(frame.shape[:2])")
-                        sound_play = audio_clip.play()
-                        sound_play.wait_done()
+                    correct_posture = posture.correct_posture()
+                    if not correct_posture:
+                        text.append(posture.build_message())
+                        
+                        # make a sound to alert the user to improper posture
+                        print("\a")
 
                 streamer.send_data(results.draw_poses(frame), text)
 

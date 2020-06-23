@@ -1,4 +1,4 @@
-# posture-corrector/posture.py
+# slouch_detector/posture.py
 
 """
 Tracks current key_point coordinates and uses these to check for
@@ -33,20 +33,35 @@ class CheckPosture:
         return self.key_points
 
     def set_message(self, message):
+        """
+        Setter to update the message manually if needed
+        :param message: string
+            The message to override the current message
+        """
         self.message = message
 
     def build_message(self):
+        """
+        Builds a string with advice to the user on how to correct their posture
+        :return: string
+            The string containing specific advice
+        """
         current_message = ""
-        if self.check_head_drop(self):
+        if not self.check_head_drop():
             current_message += "Lift up your head!\n"
-        if self.check_lean_forward(self):
-            current_message += "Bring your head back!\n"
-        if self.check_slump(self):
+        if not self.check_lean_forward():
+            current_message += "Lean back!\n"
+        if not self.check_slump():
             current_message += "Sit up in your chair, you're slumping!\n"
         self.message = current_message
         return current_message
 
     def get_message(self):
+        """
+        Getter method to return the current message
+        :return: string
+            The current posture message
+        """
         return self.message
 
     def set_scale(self, scale):
@@ -72,11 +87,12 @@ class CheckPosture:
         :return: Boolean
             True if not leaning forward; False otherwise
         """
-        if self.key_points['Left Shoulder'].x >= (self.key_points['Left Ear'].x + (self.scale * 100)) \
-            or self.key_points['Left Shoulder'].x <= (self.key_points['Left Ear'].x - (self.scale * 100)) \
-            or self.key_points['Right Shoulder'].x >= (self.key_points['Right Ear'].x + (self.scale * 100)) \
-            or self.key_points['Right Shoulder'].x <= (self.key_points['Right Ear'].x - (self.scale * 100)):
-            return False
+        if self.key_points['Left Shoulder'].x != -1 and self.key_points['Left Ear'].x != -1 \
+            and  self.key_points['Left Shoulder'].x >= (self.key_points['Left Ear'].x + (self.scale * 180)):
+                return False
+        if self.key_points['Right Shoulder'].x != -1 and self.key_points['Right Ear'].x != -1 \
+            and  self.key_points['Right Shoulder'].x >= (self.key_points['Right Ear'].x + (self.scale * 180)):
+                return False
 
         return True
 
@@ -87,8 +103,8 @@ class CheckPosture:
         :return: Boolean
             True if not slumped; False if slumped
         """
-        if self.key_points['Left Shoulder'].x <= (self.key_points['Left Eye'].x) \
-            or self.key_points['Right Shoulder'].x <= (self.key_points['Right Eye'].x - (self.scale * 100)):
+        if self.key_points['Neck'].y != -1 and self.key_points['Nose'].y != -1 \
+            and (self.key_points['Nose'].y >= self.key_points['Neck'].y - (self.scale * 150)):
             return False
         return True
 
@@ -99,9 +115,12 @@ class CheckPosture:
         :return: Boolean
             True if not head not tilted downwards; False if tilted downward
         """
-        if self.key_points['Left Eye'].y >= (self.key_points['Left Ear'].y + (self.scale * 10)) \
-            or self.key_points['Right Eye'].y >= (self.key_points['Right Ear'].y + (self.scale * 10)):
-            return False
+        if self.key_points['Left Eye'].y != -1 and self.key_points['Left Ear'].y != -1 \
+            and self.key_points['Left Eye'].y > (self.key_points['Left Ear'].y + (self.scale * 10)):
+                return False
+        if self.key_points['Right Eye'].y != -1 and self.key_points['Right Ear'].y != -1 \
+            and self.key_points['Right Eye'].y > (self.key_points['Right Ear'].y + (self.scale * 10)) :
+                return False
                         
         return True
 
