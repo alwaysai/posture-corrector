@@ -1,5 +1,5 @@
 # Posture Corrector with Pose Estimation Example App
-This app uses pose estimation to help users correct their posture by alerting them when they are slouching, leaning, or tilting their head down.
+This app uses pose estimation to help users correct their posture by alerting them with a custom audio file when they are slouching, leaning, or tilting their head down. As an extra bonus, this branch includes some image markup, to show the offending posture, as well as a custom wav file for a personalized reminder to sit up straight.
 
 ## Requirements
 To run this app, you will need an alwaysAI account. Please register at https://alwaysai.co/auth?register=true

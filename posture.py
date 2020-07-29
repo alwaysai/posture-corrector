@@ -15,6 +15,18 @@ class CheckPosture:
         self.key_points = key_points
         self.scale = scale
         self.message = ""
+        self.data = {}
+        self.new_data()
+
+    def new_data(self):
+        """
+        Helper function to re-set the data (the 'bad' posture
+        points and lines) to be an empty dictionary.
+        """
+        self.data = {
+            "lines": [],
+            "points": []
+        }
 
     def set_key_points(self, key_points):
         """
@@ -64,6 +76,16 @@ class CheckPosture:
         """
         return self.message
 
+    def get_data(self):
+        """
+        Getter method to return latest 'bad' posture points
+        :return: dictionary containing 'points' and 'lines',
+        which connect the points
+        """
+        self.new_data()
+        self.correct_posture()
+        return self.data
+
     def set_scale(self, scale):
         """
         Sets the scale factor to use for the posture calculations
@@ -87,13 +109,26 @@ class CheckPosture:
         :return: Boolean
             True if not leaning forward; False otherwise
         """
-        if self.key_points['Left Shoulder'].x != -1 and self.key_points['Left Ear'].x != -1 \
-            and  self.key_points['Left Shoulder'].x >= (self.key_points['Left Ear'].x + (self.scale * 180)):
+        x1 = self.key_points['Left Shoulder'].x
+        x2 = self.key_points['Left Ear'].x
+        x3 = self.key_points['Right Shoulder'].x
+        x4 = self.key_points['Right Ear'].x
+        y1 = self.key_points['Left Shoulder'].y
+        y2 = self.key_points['Left Ear'].y
+        y3 = self.key_points['Right Shoulder'].y
+        y4 = self.key_points['Right Ear'].y
+        if x1 != -1 and x2 != -1 \
+            and x1 >= (x2 + (self.scale * 180)):
+                self.data["points"].append([x1, y1])
+                self.data["points"].append([x2, y2])
+                self.data["lines"].append([x1, y1, x2, y2])
                 return False
-        if self.key_points['Right Shoulder'].x != -1 and self.key_points['Right Ear'].x != -1 \
-            and  self.key_points['Right Shoulder'].x >= (self.key_points['Right Ear'].x + (self.scale * 180)):
+        if x3 != -1 and x4 != -1 \
+            and x3 >= (x4 + (self.scale * 180)):
+                self.data["points"].append([x3, y3])
+                self.data["points"].append([x4, y4])
+                self.data["lines"].append([x3, y3, x4, y4])
                 return False
-
         return True
 
 
@@ -103,8 +138,15 @@ class CheckPosture:
         :return: Boolean
             True if not slumped; False if slumped
         """
-        if self.key_points['Neck'].y != -1 and self.key_points['Nose'].y != -1 \
-            and (self.key_points['Nose'].y >= self.key_points['Neck'].y - (self.scale * 150)):
+        x1 = self.key_points['Neck'].x
+        x2 = self.key_points['Nose'].x
+        y1 = self.key_points['Neck'].y
+        y2 = self.key_points['Nose'].y
+        if y1 != -1 and y2 != -1 \
+            and y2 >= (y1 - (self.scale * 150)):
+            self.data["points"].append([x1, y1])
+            self.data["points"].append([x2, y2])
+            self.data["lines"].append([x1, y1, x2, y2])
             return False
         return True
 
@@ -115,11 +157,25 @@ class CheckPosture:
         :return: Boolean
             True if not head not tilted downwards; False if tilted downward
         """
-        if self.key_points['Left Eye'].y != -1 and self.key_points['Left Ear'].y != -1 \
-            and self.key_points['Left Eye'].y > (self.key_points['Left Ear'].y + (self.scale * 10)):
+        x1 = self.key_points['Left Eye'].x
+        x2 = self.key_points['Left Ear'].x
+        x3 = self.key_points['Right Eye'].x
+        x4 = self.key_points['Right Ear'].x
+        y1 = self.key_points['Left Eye'].y
+        y2 = self.key_points['Left Ear'].y
+        y3 = self.key_points['Right Eye'].y
+        y4 = self.key_points['Right Ear'].y
+        if y1 != -1 and y2 != -1 \
+            and y1 > (y2 + (self.scale * 10)):
+                self.data["points"].append([x1, y1])
+                self.data["points"].append([x2, y2])
+                self.data["lines"].append([x1, y1, x2, y2])
                 return False
-        if self.key_points['Right Eye'].y != -1 and self.key_points['Right Ear'].y != -1 \
-            and self.key_points['Right Eye'].y > (self.key_points['Right Ear'].y + (self.scale * 10)) :
+        if y3 != -1 and y4 != -1 \
+            and y3 > (y4 + (self.scale * 10)):
+                self.data["points"].append([x3, y3])
+                self.data["points"].append([x4, y4])
+                self.data["lines"].append([x3, y3, x4, y4])
                 return False
                         
         return True
