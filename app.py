@@ -35,11 +35,11 @@ def main():
     config = load_json(CONFIG_FILE)
     scale = config.get(SCALE)
 
-    pose_estimator = edgeiq.PoseEstimation("alwaysai/human-pose")
+    pose_estimator = edgeiq.PoseEstimation("alwaysai/human_pose_nano")
 
     pose_estimator.load(
-            engine=edgeiq.Engine.DNN,
-            accelerator=edgeiq.Accelerator.CPU)
+        engine=edgeiq.Engine.TENSOR_RT,
+        accelerator=edgeiq.Accelerator.NVIDIA)
 
     print("Loaded model:\n{}\n".format(pose_estimator.model_id))
     print("Engine: {}".format(pose_estimator.engine))
