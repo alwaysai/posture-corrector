@@ -84,16 +84,6 @@ def main():
                         text.append(posture.build_message())
                         draw_points(posture.get_data(), frame)
 
-                        # lines = posture.get_lines()
-                        # points = posture.get_points()
-                        # for pair in points:
-                        #     x, y = pair[0], pair[1]
-                        #     cv.line(frame, (x, y), (x + 10, y + 10), (0, 0, 255), 8)
-                        #     cv.line(frame, (x, y + 10), (x + 10, y), (0, 0, 255), 8)
-                        # for line in lines:
-                        #     x1, y1, x2, y2 = line[0], line[1], line[2], line[3]
-                        #     cv.line(frame, (x1, y1), (x2, y2), (0, 0, 255), 6)
-
 
                     streamer.send_data(results.draw_poses(frame), text)
                     fps.update()
