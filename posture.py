@@ -7,14 +7,17 @@ Stores a scale factor, which is used to reduce or increase the distances
 that are used to calculate distance between key_points to determine if
 improper posture is detected.
 Posture is measured with these individual functions in order to allow users to
-check for specific bad behavior,
+check for specific bad behavior.
 """
 class CheckPosture:
 
     def __init__(self, scale=1, key_points={}):
         self.key_points = key_points
+        # set scale > 1 for more relaxed posture detection
         self.scale = scale
         self.message = ""
+        # set data to be a dictionary containing empty
+        # lists for keypoints and lines showing poor posture
         self.data = {}
         self.new_data()
 
