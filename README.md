@@ -4,7 +4,7 @@ are slouching, leaning, or tilting their head down. As an extra bonus, this bran
 the offending posture, as well as a custom wav file for a personalized reminder to sit up straight.
 A **scale** variable is used to adjust the keypoints measurements for different individuals, accounting for greater or
 smaller natural distances between keypoints used to detect poor posture.
-![image](/Users/lilamullany/Desktop/screenshots_for_internship/slump_comparison.png)
+![image](slump_comparison.png)
 
 Currently, there are three branches in this repository. 
 * For a basic posture corrector app that works across platforms (Mac, Windows, Linux), pull the **master** branch. 
@@ -25,10 +25,12 @@ Add any configuration settings to ```config.json```. On the 'extras' branch you 
 
  ## Output
  You should see output similar to that below.
-![image](/Users/lilamullany/Desktop/screenshots_for_internship/slump.png)
+
+![image](slump.png)
 
 If you run the **extras** branch, you will see additional markup on the image.
-![image](/Users/lilamullany/Desktop/screenshots_for_internship/extra_lean.png)
+
+![image](extra_lean.png)
 
 ## Troubleshooting
 If you are having trouble connecting to your edge device, use the CLI configure command to reset the device.
