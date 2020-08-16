@@ -1,6 +1,6 @@
 # Posture Corrector with Pose Estimation Example App
-This app uses pose estimation to help users correct their posture by alerting them with a custom audio file when they
-are slouching, leaning, or tilting their head down. 
+This app uses pose estimation to help users correct their posture by alerting them with a sound when they
+are slouching, leaning, or tilting their head down, as well as a printed message with specific suggestions for correcting posture. 
 A **scale** variable is used to adjust the keypoints measurements for different individuals, accounting for greater or
 smaller natural distances between keypoints used to detect poor posture.
 ![image](slump_comparison.png)
