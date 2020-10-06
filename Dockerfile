@@ -1,1 +1,2 @@
-FROM alwaysai/edgeiq:0.11.0
+ARG ALWAYSAI_HW="default"
+FROM alwaysai/edgeiq:${ALWAYSAI_HW}-0.16.1
