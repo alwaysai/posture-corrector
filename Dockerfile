@@ -1,1 +1,2 @@
-FROM alwaysai/edgeiq:nano-0.14.2
+ARG ALWAYSAI_HW="default"
+FROM alwaysai/edgeiq:jetson-0.17.1
