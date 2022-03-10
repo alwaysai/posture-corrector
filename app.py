@@ -35,7 +35,7 @@ def main():
     config = load_json(CONFIG_FILE)
     scale = config.get(SCALE)
 
-    pose_estimator = edgeiq.PoseEstimation("alwaysai/human-pose")
+    pose_estimator = edgeiq.PoseEstimation("alwaysai/human_pose")
 
     pose_estimator.load(
             engine=edgeiq.Engine.DNN,
