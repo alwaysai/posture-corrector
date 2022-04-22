@@ -43,5 +43,6 @@ Add any configuration settings to ```config.json```. On the **extras** branch yo
 
 ## Support
 * [Documentation](https://alwaysai.co/docs/)
-* [Community Discord](https://discord.gg/z3t9pea)
+* [Community Discord](https://discord.gg/alwaysai)
 * Email: support@alwaysai.co
+
